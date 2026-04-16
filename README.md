@@ -1,2 +1,31 @@
-# AI-Driven-Risk-Delay-Prediction-for-Logistics-Operations
-AI-based system that predicts logistics risks and delivery delays using machine learning and real-time data (traffic, weather, routes). It helps optimize operations, reduce delays, and improve efficiency.
+# 🚚 AI-Driven Risk & Delay Prediction for Logistics Operations
+
+## 📌 Overview
+This project is an AI-based system that predicts shipment delays and logistics risks using machine learning. It analyzes historical and real-time data such as traffic, weather, and route conditions to improve delivery efficiency.
+
+---
+
+## 🚀 Features
+- Predicts shipment delays  
+- Identifies high-risk deliveries  
+- Suggests optimized routes  
+- Provides data insights  
+
+---
+
+## 🛠️ Tech Stack
+- Python  
+- Pandas  
+- NumPy  
+- Scikit-learn  
+- Matplotlib  
+
+---
+
+## ▶️ Run Project
+python app.py  
+
+---
+
+## 🎯 Objective
+To reduce delivery delays and improve logistics efficiency using AI.
