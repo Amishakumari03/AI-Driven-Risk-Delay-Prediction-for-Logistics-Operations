@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply Chain Risk Checker - Very Simple</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9fbfc;
+            margin: 0;
+            padding: 30px;
+        }
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        p.intro {
+            text-align: center;
+            color: #666;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .result {
+            margin-top: 40px;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+        }
+        .high { color: #c0392b; font-weight: bold; }
+        .moderate { color: #e67e22; font-weight: bold; }
+        .low { color: #27ae60; font-weight: bold; }
+        .range-info {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Supply Chain Risk Checker</h1>
+        <p class="intro">Enter any value – no strict limits!</p>
+
+        <form method="POST" action="/">
+            <!-- Yeh 8 fields hain jo model mein use hue -->
+            <label for="traffic">Traffic Congestion Level</label>
+            <input type="number" id="traffic" name="traffic_congestion_level" required>
+            <div class="range-info">Typical range (from data): ~0 to ~10</div>
+
+            <label for="weather">Weather Condition Severity</label>
+            <input type="number" id="weather" name="weather_condition_severity" required>
+            <div class="range-info">Typical range: ~0 to ~10</div>
+
+            <label for="port">Port Congestion Level</label>
+            <input type="number" id="port" name="port_congestion_level" required>
+            <div class="range-info">Typical range: ~0 to ~10</div>
+
+            <label for="route">Route Risk Level</label>
+            <input type="number" id="route" name="route_risk_level" required>
+            <div class="range-info">Typical range: ~0 to ~10</div>
+
+            <label for="disruption">Disruption Likelihood Score</label>
+            <input type="number" id="disruption" name="disruption_likelihood_score" min="0" max="1" step="any" required>
+            <div class="range-info">Typical range: 0 to 1</div>
+
+            <label for="supplier">Supplier Reliability Score</label>
+            <input type="number" id="supplier" name="supplier_reliability_score" min="0" max="1" step="any" required>
+            <div class="range-info">Typical range: 0 to 1</div>
+
+            <label for="eta">ETA Variation (hours)</label>
+            <input type="number" id="eta" name="eta_variation_hours" required>
+            <div class="range-info">Typical range: -24 to +24</div>
+
+            <label for="fuel">Fuel Consumption Rate</label>
+            <input type="number" id="fuel" name="fuel_consumption_rate" required>
+            <div class="range-info">Typical range: ~5 to ~20</div>
+
+            <button type="submit">Check Risk Level</button>
+        </form>
+
+        {% if prediction %}
+            <div class="result">
+                <h2>Result</h2>
+                <p>
+                    <strong>Risk Level:</strong> 
+                    <span class="{% if prediction.risk_class == 'High Risk' %}high
+                                 {% elif prediction.risk_class == 'Moderate Risk' %}moderate
+                                 {% else %}low{% endif %}">
+                        {{ prediction.risk_class }}
+                    </span>
+                    (Confidence: {{ prediction.probability }}%)
+                </p>
+
+                <h3>What should you do?</h3>
+                <ul>
+                    {% for sug in prediction.suggestions %}
+                        <li>{{ sug }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
